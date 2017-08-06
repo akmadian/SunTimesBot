@@ -43,11 +43,13 @@ def api_connect():
     """Connects to the twitter api, makes the tweet, and sends it."""
     config = configparser.ConfigParser()
     config.read('config.ini')
+    print('Config parsed')
     auth = tweepy.OAuthHandler(config['twitterbotauth']['C_KEY'],
                                config['twitterbotauth']['C_SECRET'])
     auth.set_access_token(config['twitterbotauth']['A_TOKEN'],
                           config['twitterbotauth']['A_TOKEN_SECRET'])
     api = tweepy.API(auth)
+    print('Good Auth')
     refresh_times()
     date = arrow.utcnow().to('US/Pacific').format('MMM D, YYYY')
     tweet = textwrap.dedent('For today, ' + date + '\n\n' +
@@ -56,6 +58,7 @@ def api_connect():
                             times_dict['Sunset'] + '\n' +
                             times_dict['Dusk'])
     api.update_status(tweet)
+    quit()
 
 
 api_connect()
